@@ -1,4 +1,16 @@
-Just see the banks.py for an example of use. Remove the .example from passwords.cfg.example, set your user/pass for the banks, hack banks.py and you are ready to go. You can merge the results of multiple accounts by adding them. Account examples:
+**!!WARNING!!** Be really carefull with the passwords.cfg. Obviously this method of storing your bank account #'s is very weak especially with Eurobank where key is not necessary for bank transfers. !! Use at your own risk, **DON'T share your files with friends, zip, distribute etc. and be careful with viruses**. Proactively a .gitignore rule has been added for you.
+
+Quick start
+----------------
+
+Remove the .example from passwords.cfg.example and set your user/pass/acnt#. Adjust banks.py to your needs and you are ready to go.
+
+You can merge the results of multiple accounts by adding them.
+
+Examples
+----------------
+
+Some account examples:
 
     Eurobank(config)
     Eurobank('user','pass','account#')
@@ -17,8 +29,6 @@ A complete example with multiple accounts and chaining:
     (Eurobank(config)+Alpha(config)+Alpha(config,name="ALPHAB")).toCsv('summary.csv').printp()
 
 You can save to Excel format with the toCsv method. The Excel format support Greek characters.
-
-**!!WARNING!!** Be really carefull with the passwords.cfg. Obviously this method of storing your bank account #'s is very weak especially with Eurobank where key is not necessary for bank transfers. !! Use at your own risk, **DON'T share your files with friends, zip, distribute etc. and be careful with viruses**. Proactively a .gitignore rule has been added for you.
 
 The account# for Alpha Bank can be found here:
 
