@@ -12,8 +12,10 @@ You can save to Excel format with the toCsv method. The Excel format support Gre
 
 The account# for Alpha Bank can be found here:
 
-![Account number for Alpha Bank](/doc/images/alpha.jpg "Account number for Alpha Bank")
+![Account number for Alpha Bank](https://github.com/scalingexcellence/GrBanksAPI/raw/master/doc/images/alpha.jpg "Account number for Alpha Bank")
 
 and for Eurobank here:
 
-![Account number for Eurobank](/doc/images/eurob.jpg "Account number for Eurobank")
+![Account number for Eurobank](https://github.com/scalingexcellence/GrBanksAPI/raw/master/doc/images/eurob.jpg "Account number for Eurobank")
+
+
