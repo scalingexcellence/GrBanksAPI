@@ -37,5 +37,5 @@ class Eurobank(BaseBank):
             date,
             [self.name]*len(date),
             v.xpath('//table[@id="accountTransactionsTable"]/tbody/tr/td[3]/text()'),
-            v.xpath('//table[@id="accountTransactionsTable"]/tbody/tr/td[4]/span/text()')
+            [g.replace(',','.') for g in v.xpath('//table[@id="accountTransactionsTable"]/tbody/tr/td[4]/span/text()')]
         )[::-1]

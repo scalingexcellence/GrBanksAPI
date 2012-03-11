@@ -7,7 +7,7 @@ import unicode_excel_write
 import code, time
 
 class BaseBank(object):
-    def __init__(self,name):
+    def __init__(self, name):
         self.opener = urllib2.build_opener(
             urllib2.HTTPRedirectHandler(),
             urllib2.HTTPHandler(debuglevel=0), #debug
@@ -27,7 +27,7 @@ class BaseBank(object):
         g.close()
         return (s,v)
         
-    def manage_up(self,user,passw,acnt):
+    def manage_up(self, user, passw, acnt):
         if passw==None:
             # in this case the first argument is a configuration file
             passw=user.get(self.name,'pass')
@@ -35,16 +35,17 @@ class BaseBank(object):
             user=user.get(self.name,'user')
         return (user, passw, acnt)
         
-    def toCsv(self, filename):
+    def toCsv(self, filename, posOnly=False):
         fo = open(filename, 'wb')
         g = unicode_excel_write.UnicodeWriter(fo)
-        g.writerows([(time.strftime('%d/%m/%Y',a),b,c,d) for (a,b,c,d) in self.table])
+        g.writerow(['date','account','amount','description'])
+        g.writerows([(time.strftime('%d/%m/%Y',a),b,d,c) for (a,b,c,d) in self.table if not (posOnly and d.startswith('-'))])
         g.writerow(["total: ","",self.left])
         fo.close()
         return self
 
-    def printp(self):
-        print "\n".join([("%s %s %s %s" % (time.strftime('%d/%m/%Y',a),b,c.encode('utf-8'),d)) for (a,b,c,d) in self.table])
+    def printp(self, posOnly=False):
+        print "\n".join([("%s %s %12s %s" % (time.strftime('%d/%m/%Y',a),b,d,c.encode('utf-8'))) for (a,b,c,d) in self.table if not (posOnly and d.startswith('-'))])
         print "-------------------------------------------------"
         print "                                  total: %4s" % self.left
         return self

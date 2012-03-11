@@ -54,14 +54,17 @@ class Alpha(BaseBank):
             if not converted.unicode:
                 raise UnicodeDecodeError("Failed to detect encoding, tried [%s]", ', '.join(converted.triedEncodings))
             return converted.unicode
+        def nophone(adr):
+            g = adr.find(u' Τηλέφωνα')
+            return adr if g==-1 else adr[0:g]
             
         v=lxml.html.fromstring(decode_html(s))
-        
+    
         #Extract transactions info
         rep = [
             {
                 'date': r.xpath("td[1]/text()")[0].strip(),
-                'desc': r.xpath("td[2]/*/text()")[0].strip(),
+                'desc': "%s | %s" % (r.xpath("td[2]/*/text()")[0].strip(), nophone(r.xpath("td[3]/span/@title")[0].replace('\r\n',' '))),
                 'amount': "%s%s" % ('-' if r.xpath("td[5]/text()")[0].strip()==u'Χ' else '', r.xpath("td[4]/text()")[0].strip().replace(',','.')),
                 'total': "%s%s" % ('-' if r.xpath("td[7]/text()")[0].strip()==u'Χ' else '', r.xpath("td[6]/text()")[0].strip().replace(',','.'))
             }
