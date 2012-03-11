@@ -1,4 +1,4 @@
-**!!WARNING!!** Be really carefull with the passwords.cfg. Obviously this method of storing your bank account #'s is very weak especially with Eurobank where key is not necessary for bank transfers. !! Use at your own risk, **DON'T share your files with friends, zip, distribute etc. and be careful with viruses**. Proactively a .gitignore rule has been added for you.
+**!!WARNING!!** Be really carefull with the passwords.cfg. Obviously this method of storing your bank account's credentials is very weak especially with Eurobank where a security token is not necessary for bank transfers. Use at your own risk! **DON'T share your files with friends, zip, distribute etc. and be careful with viruses**. Proactively a .gitignore rule has been added for you.
 
 Quick start
 ----------------
