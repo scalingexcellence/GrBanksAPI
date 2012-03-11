@@ -41,11 +41,13 @@ class BaseBank(object):
         g.writerows([(time.strftime('%d/%m/%Y',a),b,c,d) for (a,b,c,d) in self.table])
         g.writerow(["total: ","",self.left])
         fo.close()
+        return self
 
     def printp(self):
         print "\n".join([("%s %s %s %s" % (time.strftime('%d/%m/%Y',a),b,c.encode('utf-8'),d)) for (a,b,c,d) in self.table])
         print "-------------------------------------------------"
         print "                                  total: %4s" % self.left
+        return self
 
     def __add__(self, other):
         b = BaseBank("%s_%s"%(self.name,other.name))

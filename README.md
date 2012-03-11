@@ -5,6 +5,16 @@ Just see the banks.py for an example of use. Remove the .example from passwords.
     Eurobank(config,name='config_section_name')
     summary = Eurobank(config)+Alpha(config)
     summary.toCsv('summary.csv')
+    
+A complete example with multiple accounts and chaining:
+
+    from alpha import Alpha
+    from eurobank import Eurobank
+    from ConfigParser import RawConfigParser
+    
+    config = RawConfigParser()
+    config.read('passwords.cfg')
+    (Eurobank(config)+Alpha(config)+Alpha(config,name="ALPHAB")).toCsv('summary.csv').printp()
 
 You can save to Excel format with the toCsv method. The Excel format support Greek characters.
 
@@ -17,5 +27,3 @@ The account# for Alpha Bank can be found here:
 and for Eurobank here:
 
 ![Account number for Eurobank](https://github.com/scalingexcellence/GrBanksAPI/raw/master/doc/images/eurob.jpg "Account number for Eurobank")
-
-
