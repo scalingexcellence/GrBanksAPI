@@ -3,9 +3,14 @@
 from alpha import Alpha
 from eurobank import Eurobank
 from ConfigParser import RawConfigParser
+import sys
 
 config = RawConfigParser()
-config.read('passwords.cfg')
+
+if (len(sys.argv)>1):
+    config.readfp(sys.stdin)
+else:
+    config.read('passwords.cfg')
 
 a = Alpha(config)
 e = Eurobank(config)

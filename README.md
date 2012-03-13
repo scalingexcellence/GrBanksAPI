@@ -30,6 +30,22 @@ A complete example with multiple accounts and chaining:
 
 You can save to Excel format with the toCsv method. The Excel format support Greek characters.
 
+If you would like to avoid using files (for security reasons) you might find the following examples useful:
+
+    
+    # See here on how to run gpg: http://www.madboa.com/geek/gpg-quickstart/
+    # See here if you have problem generating random numbers: http://www.howtoforge.com/helping-the-random-number-generator-to-gain-enough-entropy-with-rng-tools-debian-lenny
+
+    # Create your keys:
+    gpg --gen-key
+    
+    # Encode your keys:
+    gpg -e -r "USERNAME" passwords.cfg
+    rm passwords.cfg
+
+    # Now decrypt on-the-fly and run:
+    gpg -d --no-use-agent passwords.cfg.gpg | ./banks.py --stdin
+
 The account# for Alpha Bank can be found here:
 
 ![Account number for Alpha Bank](https://github.com/scalingexcellence/GrBanksAPI/raw/master/doc/images/alpha.jpg "Account number for Alpha Bank")
