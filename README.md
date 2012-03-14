@@ -28,7 +28,6 @@ A complete example with multiple accounts and chaining:
 You can save to Excel format with the toCsv method. The Excel format support Greek characters. You can also perform filtering and a custom formating
 
     (a+e).printp().toCsv("ae.csv")
-    (a+e).printp().toCsv("ae.csv")
     (a+e).filter(grbanks.FILTER_POSITIVE).printp().toCsv("ae.csv")
     (a+e).format(grbanks.FORMAT_SUPERSIZE_ME).filter(grbanks.FILTER_POSITIVE).printp().toCsv("ae.csv")
     (a+e).format(grbanks.FORMAT_SUPERSIZE_ME).filter(lambda row: float(row['amount'])>300).printp().toCsv("ae.csv")
