@@ -17,9 +17,8 @@ def format_day(row):
 FORMAT_DEFAULT = lambda row, type = Type.ROW: (format_day(row), row['name'], row['amount'], row['description']) if type == Type.ROW else row
 
 def FORMAT_SUPERSIZE_ME(row, type = Type.ROW):
-    supersize_me = lambda x: str(Decimal(x)*100)
     if type == Type.ROW:
-        return (format_day(row), row['name'], supersize_me(row['amount']), row['description'])
+        return (format_day(row), row['name'], row['amount']*100, row['description'])
     else:
-        return supersize_me(row)
+        return row*100
     
