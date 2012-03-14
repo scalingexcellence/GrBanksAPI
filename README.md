@@ -38,7 +38,7 @@ You can save to Excel format with the toCsv method. The Excel format support Gre
 You might want to use gpg to encrypt your account info data:
     
     # See here on how to run gpg: http://www.madboa.com/geek/gpg-quickstart/
-    # See here if you have problem generating random numbers: http://www.howtoforge.com/helping-the-random-number-generator-to-gain-enough-entropy-with-rng-tools-debian-lenny
+    # See here if you have problem generating random numbers: http://goo.gl/ecTsK
 
     # Create your keys:
     gpg --gen-key
