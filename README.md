@@ -5,8 +5,6 @@ Quick start
 
 Remove the .example from passwords.cfg.example and set your user/pass/acnt#. Adjust banks.py to your needs and you are ready to go.
 
-You can merge the results of multiple accounts by adding them.
-
 Examples
 ----------------
 
@@ -25,9 +23,9 @@ A complete example with multiple accounts and chaining:
     
     config = RawConfigParser()
     config.read('passwords.cfg')
-    (grbanks.Eurobank(config)+grbanks.Alpha(config)+grbanks.Alpha(config,name="ALPHAB")).printp()
+    (grbanks.Eurobank(config)+grbanks.Alpha(config)+grbanks.Alpha(config,name="ALPHAB")).printp().toCsv("report.csv")
 
-You can save to Excel format with the toCsv method. The Excel format support Greek characters. You can also perform arbitrary filtering, chaining and a custom formating
+You can save to Excel format with the toCsv method. The Excel format support Greek characters. You can also perform filtering and a custom formating
 
     (a+e).printp().toCsv("ae.csv")
     (a+e).printp().toCsv("ae.csv")
