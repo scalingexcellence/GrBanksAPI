@@ -2,11 +2,14 @@
 
 import unicode_excel_write
 import urllib, urllib2, cookielib
+from decimal import *
 from lxml import html
 import unicode_excel_write
 import code, time
+from utils import *
 
 class BaseBank(object):
+    
     def __init__(self, name):
         self.opener = urllib2.build_opener(
             urllib2.HTTPRedirectHandler(),
@@ -16,6 +19,7 @@ class BaseBank(object):
         )
         self.opener.addheaders = [('User-agent', 'Mozilla/5.0')]
         self.name = name
+        self.__format = FORMAT_DEFAULT
         
     def openUrl(self, url, params=None):
         if params==None:
@@ -27,6 +31,12 @@ class BaseBank(object):
         g.close()
         return (s,v)
         
+    
+    def load(self, user, passw=None, acnt=None):
+        (self.left, self.table) = self._load(user, passw, acnt)
+        self.left = Decimal(self.left)
+        self.table = map(lambda s: {'date':s[0], 'name':s[1], 'amount':Decimal(s[2]), 'description':s[3]}, self.table)
+        
     def manage_up(self, user, passw, acnt):
         if passw==None:
             # in this case the first argument is a configuration file
@@ -35,23 +45,41 @@ class BaseBank(object):
             user=user.get(self.name,'user')
         return (user, passw, acnt)
         
-    def toCsv(self, filename, posOnly=False):
+    def toCsv(self, filename):
         fo = open(filename, 'wb')
         g = unicode_excel_write.UnicodeWriter(fo)
         g.writerow(['date','account','amount','description'])
-        g.writerows([(time.strftime('%d/%m/%Y',a),b,d,c) for (a,b,c,d) in self.table if not (posOnly and d.startswith('-'))])
-        g.writerow(["total: ","",self.left])
+        g.writerows([self.__format(row) for row in self.table])
+        g.writerow(["total: ","",self.__format(self.left, Type.CURRENCY)])
         fo.close()
         return self
-
-    def printp(self, posOnly=False):
-        print "\n".join([("%s %s %12s %s" % (time.strftime('%d/%m/%Y',a),b,d,c.encode('utf-8'))) for (a,b,c,d) in self.table if not (posOnly and d.startswith('-'))])
+    
+    def printp(self):
+        print "\n".join(["%s %s %12s %s" % self.__format(row) for row in self.table]).encode('utf-8')
         print "-------------------------------------------------"
-        print "                                  total: %4s" % self.left
+        print "                                  total: %4s" % self.__format(self.left, Type.CURRENCY)
         return self
+        
+    def __clone(self):
+        b = BaseBank(self.name)
+        b.__format = self.__format
+        b.left = self.left
+        b.table = self.table
+        return b
 
+    def format(self, format=FORMAT_DEFAULT):
+        b = self.__clone()
+        b.__format = format
+        return b
+        
+    def filter(self, filter=FILTER_ALL):
+        b = self.__clone()
+        b.table = [row for row in b.table if filter(row)]
+        return b
+    
     def __add__(self, other):
         b = BaseBank("%s_%s"%(self.name,other.name))
-        b.left = "%3.2f" % (float(self.left)+float(other.left))
-        b.table = sorted(self.table+other.table)
+        b.__format = self.__format
+        b.left = self.left+other.left
+        b.table = sorted(self.table+other.table, key=lambda s: s['date'])
         return b

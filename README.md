@@ -20,18 +20,22 @@ Some account examples:
     
 A complete example with multiple accounts and chaining:
 
-    from alpha import Alpha
-    from eurobank import Eurobank
     from ConfigParser import RawConfigParser
+    import grbanks
     
     config = RawConfigParser()
     config.read('passwords.cfg')
-    (Eurobank(config)+Alpha(config)+Alpha(config,name="ALPHAB")).toCsv('summary.csv').printp()
+    (grbanks.Eurobank(config)+grbanks.Alpha(config)+grbanks.Alpha(config,name="ALPHAB")).printp()
 
-You can save to Excel format with the toCsv method. The Excel format support Greek characters.
+You can save to Excel format with the toCsv method. The Excel format support Greek characters. You can also perform arbitrary filtering, chaining and a custom formating
 
-If you would like to avoid using files (for security reasons) you might find the following examples useful:
+    (a+e).printp().toCsv("ae.csv")
+    (a+e).printp().toCsv("ae.csv")
+    (a+e).filter(grbanks.FILTER_POSITIVE).printp().toCsv("ae.csv")
+    (a+e).format(grbanks.FORMAT_SUPERSIZE_ME).filter(grbanks.FILTER_POSITIVE).printp().toCsv("ae.csv")
+    (a+e).format(grbanks.FORMAT_SUPERSIZE_ME).filter(lambda row: float(row['amount'])>300).printp().toCsv("ae.csv")
 
+You might want to use gpg to encrypt your account info data:
     
     # See here on how to run gpg: http://www.madboa.com/geek/gpg-quickstart/
     # See here if you have problem generating random numbers: http://www.howtoforge.com/helping-the-random-number-generator-to-gain-enough-entropy-with-rng-tools-debian-lenny

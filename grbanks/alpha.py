@@ -11,7 +11,7 @@ class Alpha(BaseBank):
         super(Alpha, self).__init__(name)
         if user!=None: self.load(user,passw,acnt)
             
-    def load(self, user, passw=None, acnt=None):
+    def _load(self, user, passw=None, acnt=None):
         (user,passw,acnt)=self.manage_up(user,passw,acnt)
     
         (s,v)=self.openUrl('https://secure.alpha.gr/e-services/')
@@ -71,10 +71,11 @@ class Alpha(BaseBank):
             for r in v.xpath("//table[@class='ResultTable']//tr[@bgcolor]")]
         
         #Pack transactions to the table
-        self.left = rep[len(rep)-1]['total']
-        self.table = zip(
+        left = rep[len(rep)-1]['total']
+        table = zip(
             map(lambda s:time.strptime(s['date'],'%d/%m/%Y'), rep),
             [self.name]*len(rep),
-            map(lambda s:s['desc'], rep),
-            map(lambda s:s['amount'], rep)
+            map(lambda s:s['amount'], rep),
+            map(lambda s:s['desc'], rep)
         )
+        return left, table

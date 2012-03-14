@@ -1,9 +1,8 @@
 #!/usr/bin/python
 
-from alpha import Alpha
-from eurobank import Eurobank
-from ConfigParser import RawConfigParser
 import sys
+from ConfigParser import RawConfigParser
+import grbanks
 
 config = RawConfigParser()
 
@@ -12,8 +11,8 @@ if (len(sys.argv)>1):
 else:
     config.read('passwords.cfg')
 
-a = Alpha(config)
-e = Eurobank(config)
+a = grbanks.Alpha(config)
+e = grbanks.Eurobank(config)
 
 a.printp()
 
@@ -21,4 +20,5 @@ print "================================================="
 e.printp()
 
 print "================================================="
-(a+e).printp(True)
+
+(a+e).filter(grbanks.FILTER_POSITIVE).printp()

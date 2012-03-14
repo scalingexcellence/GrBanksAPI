@@ -10,7 +10,7 @@ class Eurobank(BaseBank):
         super(Eurobank, self).__init__(name)
         if user!=None: self.load(user,passw,acnt)
     
-    def load(self, user, passw=None, acnt=None):
+    def _load(self, user, passw=None, acnt=None):
         (user,passw,acnt)=self.manage_up(user,passw,acnt)
     
         (s,v)=self.openUrl('https://ebanking.eurobank.gr/ebanking/login.faces')
@@ -30,12 +30,14 @@ class Eurobank(BaseBank):
 
         (s,v)=self.openUrl("https://ebanking.eurobank.gr/ebanking/cashmanagement/accounts.faces?n=%s&ic=1"%acnt)
 
-        self.left = v.xpath('//table[@class="fldgrp lft cash"]/tbody/tr[4]/td[2]/text()')[0].replace(',','.')
+        left = v.xpath('//table[@class="fldgrp lft cash"]/tbody/tr[4]/td[2]/text()')[0].replace(',','.')
         
         date = [time.strptime(g,'%d/%m/%Y') for g in v.xpath('//table[@id="accountTransactionsTable"]/tbody/tr/td[1]/a/text()')]
-        self.table = zip(
+        table = zip(
             date,
             [self.name]*len(date),
-            v.xpath('//table[@id="accountTransactionsTable"]/tbody/tr/td[3]/text()'),
-            [g.replace(',','.') for g in v.xpath('//table[@id="accountTransactionsTable"]/tbody/tr/td[4]/span/text()')]
+            [g.replace(',','.') for g in v.xpath('//table[@id="accountTransactionsTable"]/tbody/tr/td[4]/span/text()')],
+            v.xpath('//table[@id="accountTransactionsTable"]/tbody/tr/td[3]/text()')
         )[::-1]
+        
+        return left, table
